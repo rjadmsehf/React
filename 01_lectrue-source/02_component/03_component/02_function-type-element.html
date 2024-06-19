@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+
+    <div id="root"></div>
+    
+
+    <script type="text/babel">
+        /* 
+            함수형 컴포넌트 
+            클래스형 컴포넌트 보다 훨씬 간결하게 작성이 가능하다.
+            함수의 return 값으로 ReactElement 만 정의해서 반환하면 된다.(일반적으로 JSX 사용)
+            함수형 컴포넌트 작성 시 주의할 점은 앞 글자 대문자로 정의를 해야한는 것이다.
+            <Title/> 앞 글자가 소문자면 html 태그로 인식을 하게 되어 존재하지 않는 태그는 
+            화면 상에 그려질 수 없다. 
+            함수형 컴포넌트의 단점은 state(상태관리) 와 라이프 사이클 사용이 불가능하다는 것이 있는데 
+            이는 Hooks 를 리액트 팀에서 제공해주어 해결되었다.  
+        */
+
+        function Title() {
+            return(
+                <h1>Function Component</h1>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<Title/>);
+    </script>
+</body>
+</html>

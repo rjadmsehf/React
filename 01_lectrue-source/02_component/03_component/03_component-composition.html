@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <!-- 아주 중요개념 -->
+    <div id="root"></div>
+    <!-- 
+        컴포넌트의 합성 
+        컴포넌트는 자신의 출력에 따른 컴포넌트를 참조할 수 있다. 
+        컴포넌트는 최대한 재사용이 가능한 크기로 작게 유지해야 한며,
+        순수 함수 처럼 작성 되어야 한다. 
+
+     -->
+
+    <script type="text/babel">
+
+        // const user =  {
+            // name: '전준규',
+            // age: 24,
+            // phone: '010-2495-8782',
+            // email: 'jjg524@naver.com' 
+        // };
+
+        let name = '전준규';
+        let age =  24;;
+        let phone = '010-2495-8782';
+        let email= 'jjg524@naver.com'
+        
+        // const user = {
+        //     name : name,
+        //     age : age,
+        //     phone : phone,
+        //     email : email
+        // }
+
+        const user = { name , age , phone, email}; // 프로퍼티 단축 구문
+        
+        function NameCard() {
+
+            return <h1>{user.name}</h1>
+        }
+
+        function AgeCard(){
+            return <h2 style={{color: 'orangered'}}>{user.age}</h2>
+        }
+
+        function PhoneCard(){
+            return <h3 style={{color:'blue'}}>{user.phone}</h3>
+        }
+
+        function EmailCard(){
+            return <h3 style={{backgroundColor:'yellow'}}>{user.email}</h3>
+        }
+        function UserInfo(){
+            return (
+                <div style={{width: 300, border: '1px solid black'}}>
+                    <NameCard/>
+                    <AgeCard/>
+                    <PhoneCard/>
+                    <EmailCard/>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<UserInfo/>);
+
+    </script>
+</body>
+</html>
