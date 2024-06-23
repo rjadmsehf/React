@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- 
+        리액트의 이벤트 시스템.
+        리액트의 이벤트 시스템은 html 이벤트와 거의 유사함.
+        몇가지 주의 사항이 있다. 
+        1. 이벤트 속성의 이름은 항상 카멜케이스(onclick(x) onClick(o)) 로 작성해야한다. 
+        2. 이벤트 실행 할 자바스크립트의 코드를 전달하는 것이 아닌 함수의 형태로 값을 전달한다.
+        ex) html -> <button onclick="alert('hello world')">
+            react -> <button onClick = {() => alert('hello world')}>
+        3. DOM 요소에만 이벤트를 설정할 수 있다. 컴포넌트에 cnClick 이라고 전달 을 하게 되면 
+            props 객체에 담기는 값이 될 뿐이다.
+            하지만 컴포넌트 내부에서 props 에 전달되어 온 함수를
+            이벤트 핸들러로 추가할 수 있다. 
+            ex) <button onClick={this.props.onClick}>
+     -->
+
+    <script type="text/babel">
+
+        class EventButton extends React.Component {
+
+            constructor(props) {
+                super(props);
+            }
+
+            /* 1. 직접 이벤트 속성에 이벤트 핸들러 함수 정의해서 이벤트 연결 */ 
+            // render() {
+            //     console.log(this.props);
+            //     return(
+            //         <>
+            //             <button onClick={() => alert('인라인 함수 이벤트 동작 확인. ') }>{this.props.children}</button>
+            //         </>
+            //     );
+
+            // }
+
+            /* 2. render 함수 외부에 이벤트 핸들러 함수 정의 후 함수 전달하여 이벤트 연결 */
+            // onClickHandler = () => alert('외부에 있는 함수 render 내부에서 사용하기.') 
+
+            // /* 클래스 내부의 함수를 호출 할 때는 this. 을 반드시 명시해주어야 한다. */ 
+            // render(){
+
+            //     return(
+            //         <>
+            //             <button onClick={this.onClickHandler}>{this.props.children}</button>
+            //         </>
+            //     )
+            // }
+            
+            /* 3. component 에 적용된 이벤트를 props 로 전달 후 연결해보기. */ 
+            render(){
+                console.log(this.props);
+
+                // const onClick = this.props.onClick;
+                const {onClick , children} = this.props;
+
+                return(
+                    <button onClick={ onClick }>{children}</button>
+                )
+
+            }
+            
+            
+
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(
+            // <EventButton>이벤트버튼</EventButton> // 1 , 2 테스트 전용 입니다!
+            <EventButton onClick={ () => alert('props 로 이벤트 전달 후 연결 확인!!')}>이벤트버튼</EventButton>
+        );
+
+    </script>
+</body>
+</html>
