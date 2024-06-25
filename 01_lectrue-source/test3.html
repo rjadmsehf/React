@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        const {useState} = React;
+
+        function App() {
+
+            const [first1, setfirst1] = useState({
+                first :  null,
+                secend :  null
+                 
+            })
+
+            
+
+            const onChangeHandler = e => setfirst1({
+                ...first1 ,
+                [e.target.name] : e.target.value
+            })  
+
+            let hab = first1.first * first1.secend 
+
+            return (
+                <>
+                    
+                <input type="text" name="first" value={first1.first} onChange={onChangeHandler} />
+                <input type="text" name="secend" value={first1.secend} onChange={onChangeHandler}  />
+                <h1>첫번째 값? {first1.first} </h1>
+                <h1>두번째 값? {first1.secend} </h1>
+
+                <h2>{hab}</h2>
+
+
+                
+                </>
+            )
+
+        }
+
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>)
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        const { useState } = React;
+
+        function Gubsem() {
+
+            const [s1, sets1] = useState("")
+
+            const [s2, sets2] = useState("")
+0 
+            const onChangeHandler1 = e => sets1(e.target.value)
+
+            const onChangeHandler2 = e => sets2(e.target.value)
+
+            let hab = s1 / s2  
+            return(
+
+                <>
+                    <input type="text" value={s1} onChange={onChangeHandler1}/>
+                    <input type="text" value={s2} onChange={onChangeHandler2}/>
+
+                     <h1>첫번째값 : {s1}</h1>
+                     <h1>두번째값 : {s2}</h1>
+                     <h1>합 : {hab}</h1>
+
+                </>
+
+            )
+        }
+
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<Gubsem/>)
+    </script>
+</body>
+</html>

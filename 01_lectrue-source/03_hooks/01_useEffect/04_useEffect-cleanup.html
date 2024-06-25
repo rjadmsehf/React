@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        /* 
+            useEffect 는 기본적으로 렌더링 직후와 업데이트 직후에 동작을 한다.
+            (componentDidMount, componentDidUpdate)
+            컴포넌트가 마운트 해제 되기 직전이나, 업데이트 되기 직전에
+            실행할 내용이 있다면 정리(clean-up) 을 할 수 있다.
+
+            이전의 useEffect 내용을 정리하고 난 뒤 새로운 useEffect 가 동작할 수 있도록
+            할 때 사용이 된다.
+            이전의 useEffect 가 남아있는 상태에서 새로운 useEffect 가 동작을 하게 되면
+            마운트 해제가 일어나고 나서도 메모리의 누수나 충돌이 발생할 가능성이 있다.
+
+            clean-up(정리) 함수는 클래스형 컴포넌트의 componentWillUnmount 에서
+            하는 역할과 동일하다.
+            
+            -업데이트 상황-
+            랜더링 ---) 마운트 ---) 상태 변경 ---) 언마운트 ---) 랜더링 ---) 마운트
+                            effect            clean-up                        effect
+        */
+
+        const {useState, useEffect} = React;
+
+        function Counter() {
+
+            const [count, setCount] = useState(0);
+
+            useEffect(() => {
+                console.log('useEffect 랜더링 이후 동작함...')
+
+                return () => {
+                    console.log('clean-up 동작함...');
+                    setCount(count + 1)
+                }
+                
+            }, [count])
+            
+            console.log('render')
+
+            return(
+                <>
+                    <h1>count : {count}</h1>
+                    <button onClick={ () => setCount(count + 1) }>+ 1</button>
+                    
+                </>
+            );
+
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<Counter/>);
+
+    </script>
+</body>
+</html>

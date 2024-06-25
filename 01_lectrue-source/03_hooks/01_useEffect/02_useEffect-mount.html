@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- 
+        useEffet 는 기본적으로 마운트 된 시전과, 업데이트 된 시점 두 가지 모두
+        동작할 수 있다.
+        
+     -->
+    <script type="text/babel">
+
+        const {useState , useEffect} = React;  
+
+        function TimePrinter(){
+
+            const [time, setTime] = useState(new Date().toLocaleTimeString());
+
+            useEffect(() => {
+                console.log('마운트 시점에만 동작하도록 해보자..')  
+            }, [])  // 두 번째 인자로 빈 배열을 넣게 된다면 업데이트 시점에는 더이상 동작을 하지 않고 
+                    // 마운트 시점(렌더링 이후) 에만 동작을 하게 된다. 스크립트 시점 
+
+            return(
+
+                <>
+                    <button
+                    onClick={() => setTime(new Date().toLocaleTimeString()) }>
+                        현재 시간 확인하기    
+                    </button>
+                    <h1>{time}</h1>
+                </>
+            );
+
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<TimePrinter/>)
+    </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- 
+        컴포넌트의 라이프 사이클 메소드는 총 9 가지가 있다.
+        라이프 사이클 메소드는 클래스형 컴포넌트에서만 사용이 가능하다.
+        라이프 사이클은 크세 총 3가지 카테고리인 마운트, 업데이트, 언마운트로 나뉘게 된다..
+
+        마운트 : DOM이 생성되고 웹 브라우저상 나타나는 것을 마운트(Mount) 라고 한다.
+        업데이트 : 컴포넌트의 상태가 바뀌는 경우를 의미하며, 총 4가지의 업데이트 상황이 있다.
+                   porps 변경, state 변경, 부모컴포넌트의 리렌더링, this.forceUpdate
+
+        언마운트 : 컴포넌트를 DOM 에서 제거하는 것을 언마운트(UnMount) 라고 한다.                 
+     -->
+
+
+    <script type="text/babel">
+
+        /* 
+            마운트 시 동작 순서
+            consturtor -> getDerivedStateFromProps -> render -> componentDidMount  
+        */
+
+        class Greeting extends React.Component {
+
+            /* 1. 컴포넌트를 새로 만들 때마다 호출되는 클래스의 생성자 메소드 */ 
+            constructor(props) {
+
+                /* 
+                    컴포넌트를 만들 때 처음으로 실행된다. 
+                    셍성자 내에서는 state 를 초기화 할 수 있다.
+                */
+                
+                super(props);
+
+                console.log('constructor 호출됨...')
+
+                this.state = {
+                    text: '' 
+                }
+
+            }
+
+            /*2. props 에 있는 값을 state 에 넣을 때 사용하는 메소드 */
+            static getDerivedStateFromProps(nextProps, nextState){
+
+                /* props 로 받아온 값을 state 에 동기화 시키는 용도로 사용, 마운트와 업데이트 시 사용된다.*/
+                console.log("getDerivedStateFromProps 호출됨 ...");
+                console.log('nextProps', nextProps);
+                console.log('nextState', nextState);
+
+                if(nextProps.text !== nextState.text) {
+
+                    return {text: nextProps.text} 
+
+                }
+
+                return null;  // state 를 변경할 필요가 없다고 하면 null 반환한다.
+            }
+
+            /* 3. 리액트 엘리먼트를 가상돔으로 구성하고 실제 렌더트리까지 구성하는 시점에 호출되는 메소드 */ 
+            render() {
+
+                console.log('render 호출됨 ...')
+
+                /* 
+                    랜더링 될 컴포넌트의 형태를 리액트 컴포넌트로서 반환한다. 
+                    라이프 사이클 메소드 중 유일한 필수!! 
+                    render 메소드는 this.props 와 this.state 에 접근을 할 수 있다.
+
+                    주의 사항
+                    1. render 메소드 내에서는 이벤트 설정이 아닌 곳에서 setState 를 사용하면 안된다. 
+                    this.setState({
+                        text:'수정함'
+                    });
+
+                    2. 브라우저의 DOM 요소에도 접근을 해서는 안 된다. 
+                    
+                    DOM 정보를 가지고 오고 싶거나, state 변화를 줄 때 componentDidMount 에서 
+                    처리를 해야한다
+                    */
+               
+                
+
+                return(
+                    <>
+                        <h1>현재 상태값, {this.state.text}</h1>
+                    </>
+                )
+            }
+
+            /* 4. 컴포넌트가 웹 브라우저 상에 나타난 후 호출되는 메소드이다. */ 
+            ComponentDidMount() {
+
+                /* 
+                    컴포넌트를 다 만든 후에 첫 렌더링을 마치고 나면 호출이 된다. 
+                    (DOM 이 그려지고 난 후, Mount 직후)
+                    다른 자바스크립트 라이브러리 또는 프레임워크의 함수를 호출하거나
+                    이벤트 등록, setTimeout, setInterval, * Ajax 통신(비동기 api 호출) * 
+                    시간이 오래걸리는 작업 또는 네트워크 요청과 같은 비동기 작업을 처리한다.
+                */
+
+                console.log('componentDidMount 호출됨...')
+
+            }
+
+        }
+        ReactDOM.createRoot(document.getElementById('root')).render(<Greeting text="초기값"/>)
+    </script>
+</body>
+</html>
