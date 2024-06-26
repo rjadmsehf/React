@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    
+
+    <script type="text/babel">
+
+    const {useState, useEffect , useCallback} = React;
+    
+
+
+    function App() {
+
+        console.log('render 호출됨...')
+
+        const [number, setNumber] = useState(0)
+        const [toggle, setToggle] = useState(false)
+
+        /*  
+            의존성 배열 (2번 째 인자)에 빈 배열을 두개 되면 마운트 시점에
+            한번 지역변수 초기화를 위해 사용이 되고 나서는 
+            함수가 새로 정의되지 않았기 때문에 항상 number 의 초기값인 0이 나오게 된다.
+            그렇기 때문에 비교할 대상인 number 를 의존성 배열에 넣어주고 
+            number 의 값이 변하게 되면 다시 호출이 될 수 있게 만들어주었다. 
+        */ 
+        const printNumber =useCallback(() => {
+            console.log('현재의 number 값' , number);
+        }, [number]);
+
+        /* 
+            number 또는 toggle 의 state(상태)가 변경될 때 함수 생성이 다시 되는 것은
+            불필요한 상태이다.
+            하지만 매번 함수가 다시 생성되어 반환이 되고 있고 useEffect 에서는
+            해당 지역변수 에 변화가 있다고 인지를 하게 된다. 
+        */
+        useEffect(() => {
+            console.log('printNumber 값 변화 인지됨 ....')
+        }, [printNumber]);
+
+        return(
+            
+            <>
+
+            <input 
+                type="number"
+                value={number}
+                onChange={e => setNumber(e.target.value)}
+            />
+                <button
+                    onClick={() => setToggel.value}
+                >{String(toggle)}
+                
+            
+                </button>     {/*boolean 타입의 값은 문자열로 바꿔주어야 한다. */  }
+            <br/>
+                <button
+                    onClick={printNumber}
+                >
+                Number 의 현재값 확인하기
+                </button>
+            </>
+        )
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App/>)
+    </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        /* 업데이트 발생하는 상황 : props 변경, setstate(), 부모컴포넌트 변경 */ 
+
+        const {useState, useEffect , useCallback} = React;
+
+        function App () {
+
+            const [size , setSize] = useState(200);
+            const [isDark , setIsDark] = useState(false);
+
+
+            // const genSquareStyle = {
+            //     backgroundColor: 'orangered',
+            //     width: `${size}px`,
+            //     height: `${size}px`
+            // };
+
+            const genSquareStyle = useCallback(() => {
+                return{
+                    backgroundColor: 'orangered',
+                    width: `${size}px`,
+                    height: `${size}px`
+                }
+            }, []);
+
+            return(
+                <div style={ {backgroundColor: isDark ? 'black' : 'white' } }>
+                    <input 
+                        type="range"
+                        min="100"
+                        max="300"
+                        onChange={e => setSize(e.target.value)}
+                        />
+                    <button onClick={() => setIsDark(!isDark)}>{isDark.toString()}</button>
+                    <Square genSquareStyle={genSquareStyle}  />
+                </div>
+            );
+
+        }
+        /* props.getSquareStyle */ 
+        function Square({genSquareStyle}) {
+
+            console.log(genSquareStyle);
+            console.log('부모 컴포넌트 변경시 자식이 업데이트 되니..?');
+            
+
+            /*  
+                부모인 App 컴포넌트가 업데이트 되어 자식이 Square 컴포넌트도 리랜더링이 
+                될 때, 부모의 준 props 에 변화가 있을 때와 없을 때를 
+                자손 컴포넌트의 useEffect 를 통해 구분하여 적용할 수 있다. 
+            */
+
+            const [style ,setstyle] = useState({}); 
+
+            useEffect(() => {
+                console.log('style 변경');
+                setstyle(genSquareStyle());
+            },[genSquareStyle]);
+
+            return(
+                <div style={style}></div>
+            );
+
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>)
+    </script>
+</body>
+</html>

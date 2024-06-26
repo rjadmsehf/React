@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+    <style>
+        .page {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+        }
+
+        .footer {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        
+        /* 
+            useContext 와 createContext 는 같이 사용해야한다. 
+            createContext : 값을 공유할 공간 생성
+            useContext : 우리가 만든 공간을 사용 
+        */
+
+        /*
+            Context 는 React 컴포넌트 트리 안에서 전역적으로 데이터를 공유하기
+            위해서 고안 된 방법이다. 
+            트리 구조가 복잡해질 수록 하위 컴포넌트로의 props 전달하기 위해 
+            drilling 이 발생할 수 있게 되고,
+            그러면 유지보수가 매우 힘들어지고 코드를 읽기도 힘들어진다. 
+            그래서 Context 를 사용하면 중간 컴포넌트들에게 props 를 넘겨주지 않아도 
+            되고, 유지보수도 훨씬 수월해진당. 
+
+            context 사용을 하게 되면 컴포넌트를 재사용하기 힘들다. 
+            그래서 꼭 필요할 때만 사용해야하며 
+            만약 간단한 트리 구조이면 오히려 prop drilling 이 해결책 일 수 있다.   
+        */
+
+        const {useState ,useContext, createContext} = React;
+        
+        /*
+            context 객체를 creatContext 를 통해 만들게 되고
+            defaultValue 가 없는 경우에는 null 로 설정 할 수 있다.
+            context 객체를 구독하고 있는 컴포넌트를 랜더링을 할 때 React 트리 
+            상위에서 가장 가까이 있는 Provider 로 부터 현재 값을 읽어들인다. 
+            이 때 적절한 provider 를 찾지 못할 때 쓰이는 값이
+            defaultValue 이다. 
+        */
+        const DarkModeContext = createContext(null);  
+        // isDark , setIsDark 사용외에 다른 객체를 사용할때 기본은 null 
+
+        function App() {
+
+            const [isDark, setIsDark] = useState(false)
+            
+            /* 
+                Provider 라는 녀석은 value 프로퍼티를 이용해서 하위 컴포넌트에게
+                값을 전달한다.
+                이 때 값을 전달받을 수 있는 컴포넌트 수는 제한이 없다. 
+                헤당 Provider 는 Context 이름으로부터 useContext 훅을 통해서 
+                어느 컴포넌트 간에 사용할 수 있게 된다. 
+            */
+
+            return (
+                <DarkModeContext.Provider value={{isDark, setIsDark}}> 
+                    <Page/>
+                </DarkModeContext.Provider>
+            ); 
+        }
+
+
+        function Page() {
+             
+            return(
+                <div className="page">
+                    <Header/> 
+                    <Content/>
+                    <Footer/>
+                </div>
+            );
+        }
+
+        function Header() {
+
+            const context = useContext(DarkModeContext);
+
+            const {isDark} = context;
+
+            return(
+                <header 
+                    className ="header" 
+                    style={{ backgroundColor: isDark? 'black' : 'lightgray',
+                    color: isDark?  'white' : 'black'
+                    }
+                }
+                >
+                        <h1>Ohgiraffers 세상에 오신걸 환영합니다.!</h1>
+                        <input type="text"/>
+                </header>   
+
+            );
+
+        }
+        function Content(){
+
+            const context = useContext(DarkModeContext);
+
+            const {isDark} = context;
+            return(
+
+                <div 
+                    className="content"
+                    style={{
+                        backgroundColor: isDark? 'gray' : 'white',
+                        color: isDark? 'red' : 'black'
+                    }}>
+                    <p>Content 영역입니다^.^</p>
+                </div>
+            );
+        }
+        function Footer() {
+
+            const context = useContext(DarkModeContext);
+
+            const {isDark ,setIsDark} = context;
+
+            const onClickHandler = () => {
+                setIsDark(!isDark)
+            }
+
+            return(
+                <footer
+                    className="footer"
+                    style={{
+                        backgroundColor: isDark? 'black' :  'lightgray',
+                        color: isDark? 'white' : 'black'
+                    }}
+                >
+                    <button onClick={onClickHandler}>{isDark? '라이트모드' : '다크모드'}</button>
+                    Copyright 2024. team-ohgiraffers 
+                </footer>
+                
+            )
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);    
+    </script>
+</body>
+</html>
