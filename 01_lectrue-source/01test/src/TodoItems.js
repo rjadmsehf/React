@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 
 
 function TodoItems({todos, setTodos}) {
@@ -16,6 +17,28 @@ function TodoItems({todos, setTodos}) {
         setTodos(changedIsDoneList);
     }
 
+    
+    const modifyhandler = (e) => {
+        const modfiycheck = todos.map(todo => {
+            if(todo.id == e.target.id){
+                todo.isModify = !todo.isModify
+            }
+            return todo;
+        })
+        setTodos(modfiycheck);
+    }
+
+    const modifytexthandler = e => {
+        const modifytext = todos.map( todo => {
+            if(todo.id == e.target.id){
+                todo.description = e.target.value
+            }
+            return todo;
+        })
+        setTodos(modifytext);
+    }
+
+    
     return (
         <>
             { 
@@ -29,6 +52,8 @@ function TodoItems({todos, setTodos}) {
                             {todo.description}
                         </label>
                         <button onClick={() => removeTodo(todo.id)}>x</button>
+                        <input id={todo.id} type="text" value={todo.description} onChange={modifytexthandler} style={{display : todo.isModify ? 'block' : 'none'}}/>
+                        <button id={todo.id} onClick={modifyhandler}>수정하기</button>
                     </p>
                 ))
             }

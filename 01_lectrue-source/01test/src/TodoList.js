@@ -3,7 +3,8 @@ import TodoItems from "./TodoItems";
 
 function TodoList() {
     const [todos, setTodos] = useState([
-        {id: 1, description: '할일 목록을 추가해주세요.', isDone: false}
+        {id: 1, description: '할일 목록을 추가해주세요.', isDone: false , isModify : false} ,
+        {id: 2, description: '할일 목록을 추가해주세요.', isDone: false , isModify : false} 
     ]); 
 
     const [inputText, setInputText] = useState('');
