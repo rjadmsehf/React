@@ -11,45 +11,45 @@
 <body>
     <div id="root"></div>
 
-    <!-- 
+    <!--
         props 란?
         properties 의 약자로, 컴포넌트에 속성을 설정할 때 사용하는 요소이다.
         여기서 말하는 속성이란, 컴포넌트에 전달되는 데이터 or 함수 를 의미한다.
         props 값은 해당 컴포넌트를 사용하는 부모 컴포넌트에서 설정할 수 있다.
-        props 는 읽기 전용 객체이기 때문에 수정해서는 안 된다.   자바스크립트 챕텅 props 파트가 있는데 참고하세요
+        props 는 읽기 전용 객체이기 때문에 수정해서는 안 된다.
 
-        리액트는 매우 유연하게 사용할 수 있지만, 한 가지 엄격한 규칙이 있는데 
+        리액트는 매우 유연하게 사용할 수 있지만, 한 가지 엄격한 규칙이 있는데
         "모든 React 컴포넌트는 자신의 props 를 다룰 때 순수 함수 처럼 동작해야 한다."
 
-        동일한 입력값을 넘겼을 때 동일한 결과를 반환해야 한다 -> 순수 함수 
+        동일한 입력값을 넘겼을 때 동일한 결과를 반환해야 한다 -> 순수 함수
         컴포넌트는 반드시 이러한 순수 함수 처럼 작성 되어야 한다.
-     -->
+    -->
 
     <script type="text/babel">
 
-        const name1 = "너굴";
-        const name2 = "호랑이";
+        const name1 = '너구리';
+        const name2 = '코알라';
 
-        /* 컴포넌트 호출 시 props 에 유리가 작성한 데이터가 담겨있다. */  
+        /* 컴포넌트 호출 시 props 에 우리가 작성한 데이터가 담겨있다. */
         function Title(props) {
-            console.log(props)
-
-            return  <h1>안녕하세요 {props.name} 님 반가워요.!</h1>
+            console.log(props);
+            return <h1>안녕하세요 {props.name} 님 반갑습니다.</h1>
         }
 
         Title.defaultProps = {
             name: '기본이름'
-        };
+        }
 
         ReactDOM.createRoot(document.getElementById('root')).render(
             [
                 <Title name={name1}/>,
                 <Title name={name2}/>,
-                <Title name='전준규'/>,
-                <Title name='뱀'/>,
+                <Title name='푸바오'/>,
+                <Title name=''/>,
                 <Title/>
             ]
         );
+
     </script>
 </body>
 </html>

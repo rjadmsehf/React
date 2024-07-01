@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+    <script crossorigin src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        const {useState} = React;
+
+        function App() {
+
+            const [imgUrl, setImgUrl] = useState('');
+            return(
+                <>
+                    <SearchBox setImgUrl={setImgUrl}/>
+                    <br/>
+                    
+                    <ImageBox imgUrl={imgUrl}/>
+                </>
+            )
+        }
+
+        function SearchBox({setImgUrl}) {
+
+            const [imojiName, setImojiName] = useState('');
+
+            const onChangeHandler = (e) => {
+                setImojiName(e.target.value);
+            }
+
+            const onClickHandler = () => {
+
+                /* 버튼을 누르먄 github api 로부터 이모지 데이터를 받아오기 */
+                // 1. fetch 예시 
+                // fetch('https://api.github.com/emojis')
+                // .then(res =>{
+                //     return json();
+
+                // })
+                // .then(result => {
+                //     console.log(result);
+                //     setImgUrl(result[imojiName]);
+                // })
+
+                // 2. axios 예시
+                axios.get('https://api.github.com/emojis')
+                    .then(res => {
+                        console.log(res.data)
+                        setImgUrl(res.data[imojiName]);
+                    })
+            }
+
+            return(
+                <>
+                    <input type="text" onChange={onChangeHandler}/>
+                    <button onClick={onClickHandler}>검색</button>
+                </>
+            );
+
+        }
+
+        function ImageBox({imgUrl}) {
+
+            return !!imgUrl? <img src ={imgUrl}/> : <h1>검색어에 해당하는 이모지없음</h1>
+
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+</html>

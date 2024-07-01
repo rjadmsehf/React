@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            비동기 처리를 하기 위한 흔한 방식은 콜백함수를 이용하는 것이다.
+            하지만 특정 비동기 처리 이후 수핼할 내용을 또 정의해야 하는 경우에는
+            콜백함수의 중첩이 생기고 이런 것들이 많아지면
+            '콜백지옥'이 펼쳐진다. 
+        */ 
+
+        function increase(number, callback){
+            setTimeout(() => {
+                const result = number + 10;
+
+                if(callback) {
+                    callback(result);
+                }
+            }, 1000);
+        }
+
+        // increase(0, result => console.log(result));
+
+        /*
+            여러 번 순차적으로 결과들을 콜백 함수로 던지기 위해서는 
+            중첩을 사용해서 호출할 수 있다. 
+        */
+
+        console.log('start')
+        increase(0 , result => {
+            console.log(result)
+            increase(result , result =>{
+                console.log(result);
+                
+            })
+        })
+    </script>
+</body>
+</html>

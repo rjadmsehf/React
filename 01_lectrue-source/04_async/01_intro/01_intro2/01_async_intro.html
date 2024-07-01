@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            동기 작업 : 하나의 작업을 실행하고 마친 뒤에 다음 작업을 순차적으로 수행함(블로킹)
+            비동기 작업 : 메인 흐름은 멈추지 않는 상태에서 특정 작업들을 백그라운드에서
+                         처리하여 마치 처리하는 것 처럼 실행한다.(넌 블로킹)   
+
+            비동기 작업 시 많이 사용하는 방식이 콜백 함수를 이용하는 방식이다. 
+        */ 
+
+        function sayHello(){
+            console.log('hellow world');
+
+        }
+
+        /* 동기식으로 작성한 코드 -> 우리가 작성한 순서대로 실행이 된다. */ 
+        // sayHello();
+        // console.log('and')
+
+        /* 
+            아래의 코드는 실행할 코드를 비동기식으로 작성한 순서와 상관 없이
+            실행하게 한다(병렬적으로 동작)
+        */
+        setTimeout(sayHello , 3000);
+        const and = console.log('and')
+        setTimeout(and , 3100);
+        
+    </script>
+</body>
+</html>

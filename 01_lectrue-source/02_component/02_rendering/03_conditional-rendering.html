@@ -7,74 +7,67 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
 </head>
 <body>
-    <div id="root"></div>
     <!--
-        조건부 렌더링 
+        조건부 렌더링
         여러 개의 엘리먼트 중 특정 조건에 따라서 하나의 엘리먼트만 렌더링 해보기!!
-
-      -->
-
+    -->
+    <div id="root"></div>
 
     <script type="text/babel">
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
 
-        /* prompt -> 문자열 이기 때문에 int 로 보임 */ 
-        const answer = parseInt(prompt('리액트 재미있나요?  \n1. 재미있다 \n2 . 어렵다 '));
+        /* prompt -> 문자열 이기 때문에 int 로 파싱 필요. */
+        const answer = parseInt(prompt('리액트가 재미있나요 혹시..? \n1. 재미있다. \n2. 어렵다'));
 
-        /* 1. 랜더링 시 조건 비교 후 조건부 렌더링 하기(조건식이 아주 심플할 때 ) const의 안정성(상수이기 때문에 ) */ 
-        // const positiveElement = <h1>앞으로 더 재밌어 질 예정입니다^^</h1>
-        // const negativeElement = <h1>이겨내셔야 합니다 ~~ ^^</h1>
+        /* 1. 랜더링 시 조건 비교 후 조건부 렌더링 하기(조건식이 아주 심플할 때) */
+        // const positiveElement = <h1>앞으로 더 재밌어 질 예정입니다^^</h1>;
+        // const negativeElement = <h1>이겨내셔야 합니다 ㅎㅎ^^</h1>;
 
         // root.render(
-        //     (answer === 1 )? positiveElement : negativeElement
+        //     (answer === 1) ? positiveElement : negativeElement
         // );
 
-        /* 2. JSX 내에서 조건부로 엘리먼트 생성하기 (특정 조건에 따라서 다른 엘리먼트를 생성한다. ) let 편의성 ? (안전성은 떨어짐 ) */ 
-        /* 2-1 if 문으로 조건부 엘리먼트 생성하기. */ 
-        // let element; 
+        /* 2. JSX 내에서 조건부로 엘리먼트 생성하기 (특정 조건에 따라서 다른 엘리먼트를 생성한다.)*/
+        /* 2-1. if 문으로 조건부 엘리먼트 생성하기. */
+        // let element;
 
-        // if(answer === 1 ){
-        //     element = <h1>앞으로 더 재밌어 질 예정입니다 </h1>
+        // if(answer === 1) {
+        //     element = <h1>앞으로 더 재밌어 질 예정입니다^^</h1>
         // } else {
-        //     element = <h1>이겨내</h1>
+        //     element = <h1>이겨내셔야 합니다!!!!</h1>
         // }
-        // root.render(element);
-        
-        /* 2-2. 삼항연산자로 조건부 엘림언트 생성하기(const 를 사용할 수 있는 장점)  (삼항연산자로 처리 간결 안정성 UP! )*/ 
-        // const element = (answer === 1) ? (
-        //     <h1> 앞으로도 파이팅!</h1>
-        // ) : (
-        //     <h1> 이겨내 !</h1>
-        // ); 
-        // root.render(element);
 
-        /* 2-3. && 연산자를 이용한 조건부 엘림언트 생성하기(조건이 맞을 때만 엘리먼트가 보이게 할 경우) */ 
-        // const element = answer === 1 && <h1>앞으로도 재밌을 예정</h1>   
+        /* 2-2. 삼항연산자로 조건부 엘리먼트 생성하기(const 를 사용할 수 있는 장점) */
+        // const element = (answer ===  1) ? (
+        //     <h1>앞으로 더 짜릿할 겁니다..</h1>
+        // ) : (
+        //     <h1>그래도 더 열심히 해보시죠!!</h1>
+        // )
+
+        /* 2-3. && 연산자를 이용한 조건부 엘리먼트 생성하기(조건이 맞을 때만 엘리먼트가 보이게 할 경우) */
+        // const element = answer === 1 && <h1>앞으로 더 재밌을 예정입니다.</h1>
 
         /* 
-            주의 사항 
-            false 조건을 가지고 렌더링을 하는 경우 조건에 일치하지 않으면 
-            렌더링 되는 요소가 없지만,
-            0 은 Falsy 한 값임에도 불고하고 조건부 엘리먼트를 생성하게 되면
-            0 을 반환한다. 
-            (   
-                Falsy 값은 boolean 값에서 false 로 평과 되는 값을 의미하며
-                null , undefined , 0 , NaN '' 이 있다. 
-            ) 
-        */    
+            주의 사항
+            false 조건을 가지고 렌더링을 하는 경우 조건에 일치하지 않으면
+            렌더링 되는 요소가 없지만, 
+            0 은 Falsy 한 값임에도 불구하고 조건부 엘리먼트를 생성하게 되면
+            0 을 반환한다.
+            (
+                Falsy 값은 boolean 값에서 false 로 평가되는 값을 의미하며
+                null, undefined, 0, NaN, '' 이 있다.
+            )
+        */
 
         const number = 0;
-        console.log(!!number); //fales
-        const element = number && <h1>truthy 일 때 등장하는 태그 </h1>
+        console.log(!!number);  // false
+        const element = number && <h1>truthy 일 때 등장하는 태그</h1>
 
+        root.render(element);
 
-        root.render(element)
     </script>
-
-
 </body>
-</html>
+</html> 
