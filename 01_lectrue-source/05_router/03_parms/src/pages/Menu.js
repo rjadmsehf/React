@@ -3,8 +3,9 @@ import { getMenuList } from '../api/MenuAPI';
 import MenuItem from "../components/MenuItem";
 import boxStyle from './Menu.module.css'; 
 import { useNavigate } from "react-router-dom";
-import { searchMenu } from "../api/MenuAPI"; 
+
 // 쿼리스트링으로 작성한 url 요청을 도와줄 수 있는 hooks 
+import { searchMenu } from "../api/MenuAPI"; 
 
 function Menu() {
 
@@ -44,17 +45,17 @@ function Menu() {
     return(
         <>
             {searchMenu? 
-            <div>
-            <h1>판매 메뉴 목록</h1>
-            <div>
-                <input type="search" name="menuName" onChange={onChangeHandler}/>
-                {/* <button onClick={ onClickHandler }>메뉴이름 검색</button> */}
-            </div>
-            <div className = {boxStyle.MenuBox}>
-                {menuList.map(menu => <MenuItem key={menu.menuCode} menu={menu}/>)}
-            </div>
-
-            </div>
+                <div>
+                <h1>판매 메뉴 목록</h1>
+                <div>
+                    <input type="search" name="menuName" onChange={onChangeHandler}/>
+                    {/* <button onClick={ onClickHandler }>메뉴이름 검색</button> */}
+                </div>
+                <div className = {boxStyle.MenuBox}>
+                    {menuList.map(menu => <MenuItem key={menu.menuCode} menu={menu}/>)}
+                </div>
+                
+                </div>
             :
                 <div className={boxStyle.MenuBox}>
                     {menuList.map(menu => <MenuItem key={menu.menuCode} menu={menu}/>)}

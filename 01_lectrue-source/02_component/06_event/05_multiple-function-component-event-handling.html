@@ -24,16 +24,17 @@
         }
 
         /* 프로퍼티 키가 일치하지 않는 나머지만 spread 연산자를 활용해서 복사할 수 있다. */ 
-        let objCopy = {...obj, prop2: 'modify'};
+        let objCopy = {...obj, prop2: 'modify'}; // 바꿀수 있어서 let 
 
-        console.log(objCopy);
+        console.log('objCopy' , objCopy);
        
         /* 2. rest parameter */ 
-        let [a, ...rest] = [1,2,3];
-        console.log(rest); 
+        let [a, ...rest] = [1,2,3]; //이거 질문     
+        console.log('rest',rest); 
+        console.log(a)
 
         let {prop1, ...restObj} ={prop1: 'a', prop2: 'b' , prop3:'c'};
-        console.log(restObj);
+        console.log('restObj', restObj);
 
         /* 위에 두 가지는 필히 기억해야 함. */
         
@@ -55,10 +56,11 @@
                 }
 
                 setForm(changeForm);    // 통째로 수정한 객체를 setForm 에 넣어준다.
+                console.log(changeForm)
             }
 
             const onClickHandler = () => {
-                alert(`username : ${username} \n password: ${password}`);
+                alert(`아이디 : ${username} \n비번 : ${password} `)
 
                 setForm({
                     username: '',
