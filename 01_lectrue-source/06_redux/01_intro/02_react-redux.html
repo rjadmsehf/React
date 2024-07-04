@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/redux@4.2.0/dist/redux.js"></script>
+    <script src="https://unpkg.com/react-redux@8.0.4/dist/react-redux.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        // console.log('ReactRedux', ReactRedux);
+        const { Provider, useSelector, useDispatch} = ReactRedux;
+        const { createStore } = Redux; 
+
+        // 초기 state 설정 
+        const initState = 0; 
+
+        // 리듀서 함수 생성
+        /*
+            action 은 dispatch 를 호출하는 쪽에서 전달하는 staet 에 대한 
+            주문서 개념으로서, 
+            행위 종류(type) 
+            state 변경에 대한 내용(payload) 를 담고 있다. 
+        */
+        function reducer(state = initState, {type, payload} ) {
+            //const {type, payload} = action
+            switch(type){
+                case 'INCREMENT' :
+                    return state + payload.incrementValue
+                case 'DECREMENT' :
+                    return state - payload.decrementValue
+                default :
+                    return state
+            }
+
+        }
+
+        // 우리가 만든 리듀서 함수를 이용해서 스토어 만들기
+        const store = createStore(reducer);
+
+        // 컴포넌트
+        function App() {
+
+            /*
+                useSelector 훅을 이용해서 store 가 관리하고 있는 
+                state 를 이용할 수 있다.
+                useSelector 는 반드시 인자로 state 를 매개변수로 하는
+                함수를 콜백 함수로 전달해야 한다.
+                store값을 가져오는 느낌 
+            */
+            const count = useSelector(state => state);
+            console.log(count);
+
+            const dispatch = useDispatch();
+
+            const increaseCount = () => {
+                dispatch({
+                    type: 'INCREMENT',
+                    payload: {
+                        incrementValue: 2
+                    }
+                })
+            }
+            const decrementCount = () => {
+                
+                dispatch({
+                    type: 'DECREMENT',
+                    payload: {
+                        decrementValue: 2
+                    }
+                })
+            }
+
+            /*
+                useDispatch 훅을 이용해서 dispatch 함수를 호출할 수 있다.
+                state 변경에 필요한 값은 action 에 담아서 전달한다.
+            */
+
+            return(
+                <>
+                    <h1>Const : {count}</h1>
+                    <button onClick={increaseCount}>+ 2</button>
+                    <button onClick={decrementCount}>- 2</button>
+                </>
+            );
+
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(
+        <Provider store={store}>
+            <App/>
+        </Provider>    
+        )
+    </script>
+</body>
+</html>
