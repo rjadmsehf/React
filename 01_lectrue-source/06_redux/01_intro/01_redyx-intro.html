@@ -11,78 +11,81 @@
 
         console.log(Redux);
 
-        /* 
-            Redux 는 상태관리를 하기 위한 라이브러리이다. 
+        /*
+            리덕스는 상태관리를 하기 위한 라이브러리이다.
             앱의 상태 전부는 하나의 저장소(store) 안에 있는 객체 트리에 저장이 된다.
-            상태 트리를 변경하는 유일한 방법은 어떤 행동이 일어날 지에 대한 action 이다. 
+            상태 트리를 변경하는 유일한 방법은 어떤 행동이 일어날 지에 대한 action 이다.
             action 에 따라서 상태를 어떤 식으로 변경할 지 명시하기 위해
-            함수를 작성하고, 이를 reducer 라고 한다. 
+            함수를 작성하고, 이를 reducer 라고 한다.
 
-            Redux의 3가지 원칙
+            리덕스의 3가지 원칙
             1. Single source of truth
             - 스토어라는 하나뿐인 데이터 공간을 이용하기 때문에 신뢰할 수 있는 데이터이다.
             2. State is read-only
-            - Redux 에서는 action 을 전달하는 reducer 함수를 이용해서만 상태를 변경하며
-            - 직접적으로 state 를 변경힐 수 없다. ?
+            - 리덕스에서는 action 을 전달하는 reducer 함술를 이용해서만 상태를 변경하며
+            - 직접적으로 state 를 변경할 수 없다.
             3. Change are made with pure function
             - 변경은 오직 순수 함수로만 가능하다. (이 때문에 reducer 를 이용한다.)
-        */             
-            
+        */
+
         const {createStore} = Redux;
 
-        /* 리듀소 함수(state 와 action 을 전달 받는 함수) */
-        function counter(state = 0 , action) {
-            
-            /* 
+        /* 리듀서 함수(state 와 action 을 전달 받는 함수) */
+        function counter(state = 0, action) {
+
+            /*
                 action 이란, 우리가 스토어에 운반할 데이터를 의미하며
-                마치 주문서와 비슷한 개념이다.(ex > 라면주세요 !)
+                마치 주문서와 비슷한 개념이다.(ex> 라면 주세요)
                 {
-                    type: 'ACTION_NAME'                     // 필수 
-                    payload : {name: '홍길동' , age : 20 }  // 옵션
+                    type: 'ACTION_NAME'                     // 필수
+                    payload : {name: '홍길동', age : 20}    // 옵션
                 }
                 (
-                action 은 꼭 이 포멧이 아니어도 되지만 이후 배울 redux-actions 에는 
-                고정이기 때문에 이 패턴에 적응해보자
+                    action 은 꼭 이 포멧이 아니어도 되지만 이후 배울 redux-actions 에는
+                    고정이기 때문에 이 패턴에 적응해보자
                 )
             */
+
             switch(action.type) {
                 case 'INCREMENT' :
-                    return state +1;
+                    return state + 1;
                 case 'DECREMENT' :
-                    return state -1;    
+                    return state - 1;
                 default:
-                    return state; 
+                    return state;
             }
+
         }
+
         /* 
-            앱의 상태를 보관하는 리덕스 저장소 만들기 
-            통상 store 라고 하며, 1개의 reducer 함수를 가지고 있다. 
-            store 제공하는 api 는 subscribe, dispatch getState 가 있다. 
-            ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ
+            앱의 상태를 보관하는 리덕스 저장소 만들기.
+            통상 store 라고 하며, 1개의 reducer 함수를 가지고 있다.
+            store 제공하는 api 는 subscribe, dispatch, getState 가 있다.
         */
         const store = createStore(counter);
         console.log(store);
 
-        /* 
+        /*
             스토어의 상태변화를 구독하여 실행이 될 콜백 함수를 전달한다.
             스토어의 상태값이 변화하면 콜백함수가 호출 된다.
-            리액트랑 연동하는 react redux 에서는 직접 subscribe 를 호출하지 않는다. 
-        */ 
-        store.subscribe(() => console.log(store.getState()))
+            리액트랑 연동하는 react redux 에서는 직접 subscribe 를 호출하지 않는다.
+        */
+        store.subscribe(() => console.log(store.getState()));
 
-        /* 
-            dispath 는 리듀서 함수를 호출하며
-            state 의 현재 상태가 리듀서에 자동으로 전달되며 
-            호출이 된다
-            dispatch 를 이용해서 action 을 넣어 호출하세 되면
-            리듀서 함수의 두번재 인자(action)로 값을 전달하게 된다. 
+        /*
+            dispatch 는 리듀서 함수를 호출하며
+            state 의 현재 상태가 리듀서에 자동으로 전달되며
+            호출이 된다.
+            dispatch 를 이용해서 action(주문서) 을 넣어 호출하게 되면
+            리듀서 함수의 두번째 인자(action)로 값을 전달하게 된다.
             state 변경할 수 있는 유일한 방법은 dispatch 를 통해서
-            리듀서 함수에게 액션을 보내는 것 뿐이다 .
+            리듀서 함수에게 액션을 보내는 것 뿐이다.
         */
 
-        store.dispatch({type: 'INCREMENT'})
-        store.dispatch({type: 'INCREMENT'})
-        store.dispatch({type: 'DECREMENT'})
+        store.dispatch({type: 'INCREMENT'});
+        store.dispatch({type: 'INCREMENT'});
+        store.dispatch({type: 'DECREMENT'});
+
     </script>
 </body>
-</html>
+</html>     
