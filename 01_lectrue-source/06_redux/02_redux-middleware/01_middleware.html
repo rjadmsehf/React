@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/redux@4.2.0/dist/redux.js"></script>
+    <script src="https://unpkg.com/react-redux@8.0.4/dist/react-redux.js"></script>
+    <script src="https://unpkg.com/redux-actions@2.6.5/dist/redux-actions.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        // 리덕스 middleware
+        /*
+            action -----------) middleware -------------------) reducer ------------------) store
+            특정 조건에 따라서 액션을 무시하거나, 추가적으로 작업,수정, 로깅처리, 함수호출
+            등을 할 수 있다.
+            비동기 작업을 하기 위해 주로 사용됨여
+            대표적인 middleware 라이브러리로 redux-thunk 와 redux-saga 가 있는데 
+            우리는 redux-thunk 를 할 것이다. 
+        */
+
+        // const middleware = store => next => action => {
+        //     // 미들웨어가 수행 할 내용을 기술 
+        // }
+
+        // function middleware(store) {
+        //     return function(next){
+        //         return function (action){
+        //             // 미들웨어가 수행 할 내용을 기술
+        //         }
+        //     }
+        // }
+
+        const consoleLoggingMiddleware = store => next => action => {
+            //action -> 우리가 dispatch 에 넣은 액션에 대한 정보를 가지고 있다.
+            console.log('미들웨어에서 action : ' ,action);
+            // next -> 다음 미들웨어 혹은 미들웨어가 1개이면 리듀서에게
+            // 우리가 조작한(수정) 액션을 전달한다. 
+            const result = next(action);
+            // next(또 다른 미들웨어나 리듀서의 반환 값) 반환한다.
+            console.log(result)
+
+            return result // next 실행 후 반환값(state 결과값)을 반환 
+        }
+
+        /* ========================================================================================*/
+        // Module
+        const { createActions, handleActions } = ReduxActions;
+
+        // 초기값
+        const initState = 0; 
+
+        // 액션 타입
+        const INCREASE = 'count/INCREASE'
+        const DECREASE = 'count/DECREASE'
+
+        // 액션 생성자 함수 프로퍼티 key : type, 프로퍼티 value 는 payload
+        const { count: { increase, decrease } } = createActions({
+            [INCREASE]: (amount = 1) => ({ increaseValue: amount }),
+            [DECREASE]: (amount = 1) => ({ decreaseValue: amount })
+        }); 
+
+        // 리듀서 
+        const reducer = handleActions(
+            {
+                [INCREASE]: (state, { payload: { increaseValue } }) => state + increaseValue,
+                [DECREASE]: (state, { payload: { decreaseValue } }) => state - decreaseValue
+            },
+            initState 
+        );
+
+        /* ========================================================================================*/
+        // component (UI)
+
+        const { useSelector, useDispatch } = ReactRedux;
+
+        function App() {
+            const count = useSelector(state => state);
+            const dispatch = useDispatch();
+
+            const increaseCount = () => dispatch(increase());
+            const decreaseCount = () => dispatch(decrease());
+
+            return(
+                <>
+                    <h1>Count: {count}</h1>
+                    <button onClick={increaseCount}>+ 1</button>
+                    <button onClick={decreaseCount}>- 1</button>
+                </>
+            );
+        }
+
+        /* ========================================================================================*/
+        // Store.js
+        const { createStore ,applyMiddleware } = Redux;
+
+        const store = createStore(
+            reducer , applyMiddleware(consoleLoggingMiddleware)
+        );
+
+        
+        /* ========================================================================================*/
+        // index.js
+        const { Provider } = ReactRedux;
+
+        ReactDOM.createRoot(document.getElementById('root')).render(
+            <Provider store={store}>
+                <App />
+            </Provider>
+        );
+        /* ========================================================================================*/
+    </script>
+</body>
+</html>

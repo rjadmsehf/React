@@ -68,7 +68,7 @@
         }) 
 
         
-        console.log(increase);
+        console.log("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ" , increase);
         console.log(decrease);
 
         /* 리듀서 */ 
@@ -84,7 +84,7 @@
                     return state + incrementValue;
                 },
                 [DECREMENT] : (state , {payload: {decrementValue}}) => {
-                    console.log(staet);
+                    console.log(state);
                     return state - decrementValue;
                 }
             },
@@ -107,7 +107,7 @@
             return(
                 <>
                     <h1>Count  : {count}</h1>
-                    <button onClick= {increaseCount}>+ 1</button>
+                    <button onClick= {increaseCount}>+ 1</button>   
                     <button onClick= {decreaseCount}>- 1</button>
                 </>
             )
