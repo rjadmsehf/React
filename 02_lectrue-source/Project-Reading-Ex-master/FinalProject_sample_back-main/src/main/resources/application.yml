@@ -17,7 +17,7 @@ spring:
   # jpa config
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
@@ -35,7 +35,7 @@ image:
   add-resource-handler: /productimgs/**
 
   image-dir: src/main/resources/static/productimgs
-  image-url: http://localhost:8001/productimgs/
+  image-url: http://localhost:8080/productimgs/
 jwt:
   key: wERjtIdxQ8lNjF0w/AAiN6HqTASaCAUzSq6nbKefMwf5CbPE8GvwLsClz94uVt9Q1esxYwwXVU+BYn7/mR01Qg==
   time: 1800000
