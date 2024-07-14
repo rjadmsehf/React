@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        const {useState, useEffect} = React;
+
+        function Timer() {
+
+            useEffect(
+                () => {
+                    console.log('Timer 컴포넌트가 마운트 될 때 동작함...');
+                    console.log('타이머가 동작합니다..');
+                    const timer = setInterval(() => {
+                        console.log(new Date().toLocaleTimeString());
+                    }, 1000);
+
+                    /* return 구문에서 함수를 반환하면 해당 컴포넌트를 언마운트 시 setInterval 을 통해 interval 을 종료시킨다.*/
+                    return () => {
+                        clearInterval(timer);
+                        console.log("타이머가 종료됩니다...");
+                    }
+                },
+                []
+            )
+
+            return(
+
+                <>
+                    <h1>타이머 시작합니다.</h1>
+                </>
+
+            );
+
+        }
+
+        function App() {
+
+            const [isTrue, setIstrue] = useState(false);
+
+            return(
+
+                <>
+                    <button onClick={ () => {setIstrue(!isTrue)} }>타이머 토글</button>
+                    { isTrue && <Timer/>}
+                    { /* isTrue ? <Timer/> : null */}
+                </>
+
+            );
+
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+
+    </script>
+</body>
+</html>
