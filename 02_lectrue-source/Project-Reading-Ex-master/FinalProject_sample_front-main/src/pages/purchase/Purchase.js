@@ -1,4 +1,4 @@
-import PurchaseCSS from './Purchase.module.css';
+ import PurchaseCSS from './Purchase.module.css';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import queryString from 'query-string';
 import { useSelector, useDispatch } from 'react-redux';
