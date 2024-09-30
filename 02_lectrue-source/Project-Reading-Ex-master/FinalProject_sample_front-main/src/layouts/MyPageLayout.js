@@ -20,6 +20,6 @@ function MyPageLayout() {
             </div>
         </>
     );
-}
+} 
 
 export default MyPageLayout;
