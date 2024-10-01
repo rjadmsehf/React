@@ -22,4 +22,4 @@ function MyPageLayout() {
     );
 } 
 
-export default MyPageLayout;
+export default MyPageLayout; 
